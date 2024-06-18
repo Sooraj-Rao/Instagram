@@ -3,7 +3,9 @@ import jwt from "jsonwebtoken";
 const authMiddleware = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) {
-    return res.status(401).json({ error: true, message: "Unauthorized" });
+    return res
+      .status(401)
+      .json({ error: true, message: "Unauthorized", status: 401 });
   }
 
   try {
@@ -11,7 +13,7 @@ const authMiddleware = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    return res.status(401).json({ error: true, message: "Unauthorized" });
+    return res.json({ error: true, message: "Unauthorized", status: 401 });
   }
 };
 

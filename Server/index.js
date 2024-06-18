@@ -2,20 +2,21 @@ import express from "express";
 import http from "http";
 import cors from "cors";
 import { Server } from "socket.io";
-import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import { router as userRoutes } from "./src/Routes/userRoute.js";
-import { router as postRoutes } from "./src/Routes/postRoute.js";
-import { Connect } from "./src/DB/Connect.js";
-import Post from "./src/Models/User/postModel.js";
+import { router as userRoutes } from "./src/Routes/user.route.js";
+import { router as postRoutes } from "./src/Routes/post.route.js";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
+import { LikePost, PostComment } from "./src/Controllers/socket.controller.js";
+import { connectDB } from "./src/DB/connectDB.js";
 
 dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
+
+const PORT = process.env.PORT;
 
 const io = new Server(server, {
   cors: {
@@ -25,7 +26,7 @@ const io = new Server(server, {
   },
 });
 
-Connect();
+connectDB();
 
 app.use(
   cors({
@@ -48,50 +49,18 @@ app.use("/api/posts", postRoutes);
 
 io.on("connection", (socket) => {
   socket.on("likePost", async ({ postId, token }) => {
-    try {
-      const decoded = jwt.verify(token, process.env.SECRET_KEY);
-      const post = await Post.findById(postId);
-      if (post) {
-        const userIdIndex = post.likes.indexOf(decoded.id);
-
-        if (userIdIndex === -1) {
-          post.likes.push(decoded.id);
-        } else {
-          post.likes.splice(userIdIndex, 1);
-        }
-
-        await post.save();
-        io.emit("postLiked", { postId: post._id, likes: post.likes });
-      }
-    } catch (error) {
-      console.error("Error liking/unliking post:", error);
-    }
+    LikePost(postId, token);
   });
 
   socket.on("addComment", async ({ postId, token, text }) => {
-    try {
-      const decoded = jwt.verify(token, process.env.SECRET_KEY);
-      const post = await Post.findById(postId);
-      if (post) {
-        const comment = {
-          user: decoded.id,
-          text,
-          createdAt: new Date(),
-        };
-        post.comments.push(comment);
-        await post.save();
-        io.emit("commentAdded", { postId: post._id, comments: post.comments });
-      }
-    } catch (error) {
-      console.error("Error adding comment:", error);
-    }
+    PostComment(postId, token, text);
   });
 
   socket.on("disconnect", () => {});
 });
 
-server.listen(3001, () => {
-  console.log("Server is running on port 3001");
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
 
 export default io;

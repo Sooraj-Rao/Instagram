@@ -1,9 +1,9 @@
-import Main from "@/components/Main";
+import Main from "@/components/hero";
 
 export default function Home() {
   return (
-    <div>
+    <>
       <Main />
-    </div>
+    </>
   );
 }

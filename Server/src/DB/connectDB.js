@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const Connect = async () => {
+export const connectDB = async () => {
   let DB_URL = process.env.DATABASE_URL;
   await mongoose
     .connect(DB_URL)

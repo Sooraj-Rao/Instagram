@@ -2,7 +2,7 @@ import React from "react";
 import Login from "../login";
 import SignUp from "../signup";
 
-const Page = ({ params: { route } }: { params: { route: string } }) => {
+const Page = ({ params: { route } }) => {
   const renderComponent = () => {
     switch (route) {
       case "signup":

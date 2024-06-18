@@ -3,7 +3,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(routes)/home/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(routes)/home/page.tsx", "src/components/hero.tsx", "src/components/createPost.tsx", "src/utils/socket.ts", "src/utils/date.format.ts", "src/app/(routes)/auth/[route]/page.tsx", "src/app/(routes)/auth/login.tsx", "src/app/(routes)/auth/signup.tsx", "src/app/layout.tsx", "src/app/page.tsx", "src/components/postCard.tsx"],
   "exclude": ["node_modules"]
 }
