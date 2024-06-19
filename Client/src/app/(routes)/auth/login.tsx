@@ -28,7 +28,7 @@ const Login = () => {
       const res = await axios.post(`${Server}/api/auth/login`, InputData);
       const { error, message, token ,userId} = res.data;
       if (error) {
-        console.log(message);
+        alert(message);
       } else {
         Cookies.set('token', token, { expires: 1, sameSite: 'strict' });
         Cookies.set('user', userId, { expires: 1, sameSite: 'strict' });
@@ -37,6 +37,7 @@ const Login = () => {
       }
     } catch (error) {
       console.log(error);
+      alert('Failed to Login')
     } finally {
       setloader(false);
     }

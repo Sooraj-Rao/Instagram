@@ -29,11 +29,13 @@ const SignUp = () => {
       const { error, message } = res.data;
       if (error) {
         console.log(message);
+        alert(message)
       } else {
         router.push("/auth/login");
       }
     } catch (error) {
       console.log(error);
+      alert('Failed to Signin')
     } finally {
       setloader(false);
     }

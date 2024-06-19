@@ -19,11 +19,13 @@ const HomePage = () => {
       const { error, data, message } = res.data;
       if (error) {
         console.error("Error fetching posts:", message);
+        alert('Error fetching posts')
       } else {
         setPosts(data);
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
+      alert('Error fetching posts')
     } finally {
       setloader(false);
     }
