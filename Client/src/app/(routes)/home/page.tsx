@@ -19,13 +19,13 @@ const HomePage = () => {
       const { error, data, message } = res.data;
       if (error) {
         console.error("Error fetching posts:", message);
-        alert('Error fetching posts')
+        alert("Error fetching posts");
       } else {
         setPosts(data);
       }
     } catch (error) {
       console.error("Error fetching posts:", error);
-      alert('Error fetching posts')
+      alert("Error fetching posts");
     } finally {
       setloader(false);
     }
@@ -67,10 +67,7 @@ const HomePage = () => {
       </div>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography
-            variant="h4"
-            className="  text-red-800  font-bold"
-          >
+          <Typography variant="h4" className="  text-red-800  font-bold">
             Instagram
           </Typography>
         </Grid>
@@ -82,7 +79,9 @@ const HomePage = () => {
           />
         </Grid>
         <Grid item xs={12}>
-          <h1 className="  text-xl text-center">Recent Posts</h1>
+          {posts?.length != 0 && (
+            <h1 className="  text-xl text-center">Recent Posts</h1>
+          )}
           {loader ? (
             <div className=" flex justify-center">
               <div className=" bg-gray-200 animate-pulse w-[20rem] min-h-[30rem] my-3 "></div>

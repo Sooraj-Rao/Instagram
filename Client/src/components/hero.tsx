@@ -9,11 +9,14 @@ const Main = () => {
         height: "100%",
         display: "flex",
         justifyContent: "center",
-        marginTop: "10rem",
       }}
+      className=" relative"
     >
-      <div>
-        <h1>Welcome to Instagram</h1>
+      <h1 className=" absolute left-6 top-4 text-4xl text-red-500 font-semibold">
+        Instagram
+      </h1>
+      <div className=" flex  items-center flex-col mt-40">
+        <h1 className=" text-5xl">Welcome to Instagram</h1>
         <br />
         <Link href={"/auth/login"}>
           <Button variant="outlined">Get started</Button>

@@ -4,7 +4,8 @@ import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import Cookies from 'js-cookie'; 
+import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const router = useRouter();
@@ -26,18 +27,33 @@ const Login = () => {
     setloader(true);
     try {
       const res = await axios.post(`${Server}/api/auth/login`, InputData);
-      const { error, message, token ,userId} = res.data;
+      const { error, message, token, userId } = res.data;
       if (error) {
-        alert(message);
+       return toast.error(message, {
+          style: {
+            background: "#333",
+            color: "#fff",
+          },
+        });
       } else {
-        Cookies.set('token', token, { expires: 1, sameSite: 'strict' });
-        Cookies.set('user', userId, { expires: 1, sameSite: 'strict' });
-
+        Cookies.set("token", token, { expires: 1, sameSite: "strict" });
+        Cookies.set("user", userId, { expires: 1, sameSite: "strict" });
+        toast.success("Login success!", {
+          style: {
+            background: "#333",
+            color: "#fff",
+          },
+        });
         router.push("/home");
       }
     } catch (error) {
       console.log(error);
-      alert('Failed to Login')
+      toast.error('Login failed', {
+        style: {
+          background: "#333",
+          color: "#fff",
+        },
+      });
     } finally {
       setloader(false);
     }
@@ -53,7 +69,7 @@ const Login = () => {
       }}
     >
       <div>
-        <h1>Login form</h1>
+        <h1 className=" mb-5">Login form</h1>
         <form onSubmit={handleSubmit}>
           <TextField
             onChange={handleChange}
@@ -76,12 +92,16 @@ const Login = () => {
           <br />
           <br />
           <Button type="submit" variant="contained">
-            Login
+            {loader ? (
+              <h1 className=" p-[10px] h-4 w-4 rounded-full border-t-transparent animate-spin border-2"></h1>
+            ) : (
+              "Login"
+            )}
           </Button>
         </form>
         <br />
         <br />
-        No account? <Link href={"/auth/signup"}>Register</Link>
+        No account? <Link className=" text-blue-500 underline" href={"/auth/signup"}>Register</Link>
       </div>
     </div>
   );

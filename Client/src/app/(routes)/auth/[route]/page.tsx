@@ -12,7 +12,7 @@ const Page = ({ params: { route } }) => {
     }
   };
 
-  return <div style={{ height: "100vh" }}>{renderComponent()}</div>;
+  return <div>{renderComponent()}</div>;
 };
 
 export default Page;
